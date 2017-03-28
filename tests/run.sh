@@ -1,0 +1,1 @@
+PYTHONPATH=../ nosetests --no-path-adjustment -s --rednose --verbosity=2 --with-coverage --cover-erase --cover-inclusive unit/ --cover-package=../notipyserver --cover-html --exclude-test=notipyserver.__main__
