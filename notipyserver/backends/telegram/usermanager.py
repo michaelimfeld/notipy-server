@@ -8,13 +8,14 @@ users yaml file.
 :license: MIT, see LICENSE for details
 """
 import logging
+from os.path import expanduser
 from pathlib import Path
 import yaml
 
 from .errors import UserNotRegisteredError, GroupNotRegisteredError
 
-USERS_FILE_PATH = Path.home() / ".notipy" / "telegram-users.yml"
-GROUPS_FILE_PATH = Path.home() / ".notipy" / "telegram-groups.yml"
+USERS_FILE_PATH = Path(expanduser("~"), ".notipy", "telegram-users.yml")
+GROUPS_FILE_PATH = Path(expanduser("~"), ".notipy", "telegram-groups.yml")
 
 
 def load_yaml_file(file_path):

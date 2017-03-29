@@ -8,6 +8,7 @@ Provides test cases for the notipyserver usermanager module.
 """
 import tempfile
 from pathlib import Path
+from os.path import expanduser
 
 from mock import patch
 from nose.tools import assert_equal, assert_true, assert_false, assert_raises
@@ -56,7 +57,7 @@ def test_add_user_new_user():
     with patch(load_yml) as mock:
         mock.return_value = {"foouser": 1234}
 
-        (Path.home() / ".notipy").mkdir(exist_ok=True)
+        Path(expanduser("~"), ".notipy").mkdir(exist_ok=True)
         assert_true(add_user("baruser", 4321))
 
 
@@ -68,7 +69,7 @@ def test_add_user_existing_user():
     with patch(load_yml) as mock:
         mock.return_value = {"foouser": 1234}
 
-        (Path.home() / ".notipy").mkdir(exist_ok=True)
+        Path(expanduser("~"), ".notipy").mkdir(exist_ok=True)
         assert_false(add_user("foouser", 4321))
 
 
@@ -80,7 +81,7 @@ def test_add_group_new_group():
     with patch(load_yml) as mock:
         mock.return_value = {"foogroup": 1234}
 
-        (Path.home() / ".notipy").mkdir(exist_ok=True)
+        Path(expanduser("~"), ".notipy").mkdir(exist_ok=True)
         assert_true(add_group("bargroup", 4321))
 
 
@@ -92,7 +93,7 @@ def test_add_group_existing_group():
     with patch(load_yml) as mock:
         mock.return_value = {"foogroup": 1234}
 
-        (Path.home() / ".notipy").mkdir(exist_ok=True)
+        Path(expanduser("~"), ".notipy").mkdir(exist_ok=True)
         assert_false(add_group("foogroup", 4321))
 
 

@@ -7,6 +7,7 @@ Provides the configuration for notipy.
 :license: MIT, see LICENSE for details
 """
 from pathlib import Path
+from os.path import expanduser
 
 
 def get_token():
@@ -18,7 +19,7 @@ def get_token():
         FileNotFoundError: If the token file does not exist.
         ValueError: If the token file is empty.
     """
-    path = (Path.home() / ".telegram-token.txt")
+    path = Path(expanduser("~"), ".telegram-token.txt")
     token = path.open().read().strip()
     if not token:
         raise ValueError("Token file {} is empty.".format(path))
