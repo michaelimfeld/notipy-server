@@ -14,8 +14,8 @@ import yaml
 
 from .errors import UserNotRegisteredError, GroupNotRegisteredError
 
-USERS_FILE_PATH = Path(expanduser("~"), ".notipy", "telegram-users.yml")
-GROUPS_FILE_PATH = Path(expanduser("~"), ".notipy", "telegram-groups.yml")
+USERS_FILE_PATH = Path(expanduser("~"), ".notipy-data", "telegram-users.yml")
+GROUPS_FILE_PATH = Path(expanduser("~"), ".notipy-data", "telegram-groups.yml")
 
 
 def load_yaml_file(file_path):

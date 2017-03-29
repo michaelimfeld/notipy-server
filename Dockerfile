@@ -5,7 +5,7 @@ RUN adduser notipy
 RUN mkdir -p /src
 
 COPY . /src
-COPY .telegram-token.txt /home/notipy
+COPY .notipy.yml /home/notipy
 
 WORKDIR /src
 RUN pip3 install --no-cache-dir -r requirements.txt

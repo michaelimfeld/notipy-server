@@ -11,7 +11,7 @@ import logging
 
 from telegram import Bot, TelegramError
 
-from notipyserver.config import get_token
+from notipyserver.config import Config
 
 from .usermanager import get_user_chat_id, get_group_chat_id
 from .errors import TelegramConfigurationError
@@ -30,7 +30,7 @@ def get_telegram_bot():
     """
     logger = logging.getLogger()
     try:
-        return Bot(get_token())
+        return Bot(Config().telegram_token)
     except (FileNotFoundError, ValueError, TelegramError) as exc:
         logger.error("Telegram token not present or invalid: '%s'", str(exc))
         raise TelegramConfigurationError("Telegram token not "

@@ -23,3 +23,11 @@ class BackendNotFoundError(NotipyError):
     not be found.
     """
     pass
+
+
+class NoConfigurationError(NotipyError):
+    """
+    Exception which is raised if the notipy configuration
+    file does not exist.
+    """
+    pass

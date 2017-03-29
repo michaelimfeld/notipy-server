@@ -21,7 +21,7 @@ def test_get_telegram_bot_fail():
     """
     Test get telegram bot if it fails
     """
-    with patch("notipyserver.backends.telegram.messagehandler.get_token") \
+    with patch("notipyserver.backends.telegram.messagehandler.Config") \
             as mock, \
             patch("notipyserver.backends.telegram.messagehandler.Bot"):
 

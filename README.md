@@ -18,10 +18,17 @@ found [here](https://core.telegram.org/bots).
 
 ### Docker
 To make things easier a Dockerfile is provided. 
-The notification server can be built and run with the following commands:
-```
+The notification server can be built with the following command:
+```bash
 foo@host:~$ docker build . -t notipyserver
-foo@host:~$ echo "mytelegramtoken" > .telegram-token.txt
+```
+After building the `.notipy.yml` config file has to be set up:
+```bash
+echo "telegram_token: 'mytoken'" > .notipy.yml
+```
+Docker will copy this file into the home directory of the docker user.
+Finally you can run the server:
+```bash
 foo@host:~$ docker run -p 8080:5000 -d notipyserver
 ```
 
@@ -38,6 +45,15 @@ foo@host:~$ curl -H "Content-Type: application/json" -X POST \
 ```bash
 foo@host:~$ curl http://localhost:8080/api/v1/recipients?backend=1
 {"message": "", "data": ["myuser"], "status": "success"}
+```
+
+## Configuration
+The Notipy Server needs a configuration file where the api tokens are stored
+to communicate with multiple backends. This file is located in the home directory of the user who runs
+the server e.g.: `/home/myuser/.notipy.yml`. Currently Telegram is the only supported backend.
+```yaml
+# Telegram API Token
+telegram_token: 'mytoken'
 ```
 
 ## Implemented Backends

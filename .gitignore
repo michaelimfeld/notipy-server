@@ -94,4 +94,4 @@ ENV/
 .ropeproject
 
 # telegram token file
-.telegram-token.txt
+.notipy.yml

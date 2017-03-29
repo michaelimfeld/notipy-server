@@ -12,7 +12,6 @@ import logging
 from threading import Thread
 
 import click
-from flask import request
 from telegram.ext import Updater, CommandHandler
 
 # The following imports are needed for the flask route dispatching
@@ -20,7 +19,7 @@ import notipyserver.handlers.recipients  # pylint: disable=unused-import
 import notipyserver.handlers.notifications  # pylint: disable=unused-import
 
 from .app import app
-from .config import get_token
+from .config import Config
 from .backends.telegram.userregistration import register
 
 logging.basicConfig(
@@ -37,7 +36,7 @@ def get_telegram_updater():
     Returns:
         telegram.ext.Updater: The telegram updater object.
     """
-    updater = Updater(get_token())
+    updater = Updater(Config().telegram_token)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("start", register))

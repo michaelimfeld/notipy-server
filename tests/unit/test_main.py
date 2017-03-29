@@ -19,7 +19,7 @@ def test_get_telegram_updater():
     Test get telegram updater
     """
     with patch("notipyserver.__main__.Updater"), \
-            patch("notipyserver.__main__.get_token"):
+            patch("notipyserver.__main__.Config"):
         notipyserver.__main__.get_telegram_updater()
 
 
