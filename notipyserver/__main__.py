@@ -52,6 +52,7 @@ class NotipyServer:
         host (str): The api server's host.
         port (int): The api server's port.
     """
+
     def __init__(self, host, port):
         signal.signal(signal.SIGTERM, self.signal_handler)
         signal.signal(signal.SIGINT, self.signal_handler)

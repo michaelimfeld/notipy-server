@@ -22,6 +22,7 @@ class Config:
     Returns:
         dict: The parsed yaml content.
     """
+
     def __init__(self, config_path=Path(expanduser("~"), ".notipy.yml")):
         self.__config_path = config_path
         self.__config = dict()

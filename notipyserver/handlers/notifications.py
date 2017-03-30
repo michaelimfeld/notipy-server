@@ -25,17 +25,22 @@ def send_post():
     :type Notification: dict | bytes
     """
     params = request.json
-    backend_type = params.get("backend")
-    recipient = params.get("recipient")
-    message = params.get("message")
-
-    if not backend_type or not recipient or not message:
+    try:
+        backend_type = params.pop("backend")
+        recipient = params.pop("recipient")
+        message = params.pop("message")
+    except KeyError:
         return create_response(400, "error",
                                "One of the following parameters is missing:"
                                " backend, recipient, message.")
 
+    if not backend_type or not recipient or not message:
+        return create_response(400, "error",
+                               "One of the following parameters is undefined:"
+                               " backend, recipient, message.")
+
     try:
-        dispatch_notification(backend_type, recipient, message)
+        dispatch_notification(backend_type, recipient, message, **params)
     except NotipyError as exc:
         return create_response(500, "error", str(exc))
     # To prevent crashes, it is required to catch all exceptions

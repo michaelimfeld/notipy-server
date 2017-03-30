@@ -14,7 +14,7 @@ from .backends.telegram.messagehandler import send_to_group \
         as telegram_group_handler
 
 
-def dispatch_notification(backend, recipient, message):
+def dispatch_notification(backend, recipient, message, **kwargs):
     """
     Dispatches a notification message to a backend.
 
@@ -34,4 +34,4 @@ def dispatch_notification(backend, recipient, message):
         raise BackendNotFoundError("Backend with id '{}' could not be found."
                                    .format(backend))
 
-    handler(recipient, message)
+    handler(recipient, message, **kwargs)

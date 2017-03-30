@@ -37,7 +37,7 @@ def get_telegram_bot():
                                          "present or invalid.")
 
 
-def send(recipient, message):
+def send(recipient, message, **_):
     """
     Sends the given message to the given
     recipient over the telegram api.
@@ -55,7 +55,7 @@ def send(recipient, message):
     bot.sendMessage(chat_id=chat_id, text=message)
 
 
-def send_to_group(recipient, message):
+def send_to_group(recipient, message, **_):
     """
     Sends the given message to the given
     group recipient over the telegram api.
