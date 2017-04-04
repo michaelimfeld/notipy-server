@@ -35,8 +35,8 @@ class Config:
             NoConfigurationError: If the config file does not exist.
         """
         if not self.__config_path.exists():
-            raise NoConfigurationError("Config file {} does not exist",
-                                       str(self.__config_path))
+            raise NoConfigurationError("Config file {} does not exist"
+                                       .format(self.__config_path))
         with self.__config_path.open() as config_file:
             return yaml.load(config_file.read())
 
