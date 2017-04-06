@@ -9,7 +9,7 @@ to Telegram clients.
 """
 import logging
 
-from telegram import Bot, TelegramError
+from telegram import Bot, TelegramError, ParseMode
 
 from notipyserver.config import Config
 
@@ -52,7 +52,8 @@ def send(recipient, message, **_):
     """
     bot = get_telegram_bot()
     chat_id = get_user_chat_id(recipient)
-    bot.sendMessage(chat_id=chat_id, text=message)
+    bot.sendMessage(chat_id=chat_id, text=message,
+                    parse_mode=ParseMode.MARKDOWN)
 
 
 def send_to_group(recipient, message, **_):
