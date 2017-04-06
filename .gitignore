@@ -95,3 +95,5 @@ ENV/
 
 # telegram token file
 .notipy.yml
+
+tests/cover

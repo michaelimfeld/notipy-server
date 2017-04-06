@@ -17,4 +17,4 @@ def test_create_response():
     """
     with patch("notipyserver.response.make_response") as mock:
         create_response(200, "success", "foo", None)
-        mock.assert_called()
+        assert(mock.called)
