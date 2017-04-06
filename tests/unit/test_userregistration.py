@@ -90,9 +90,10 @@ def test_register_group():
 
     update = MagicMock()
     update.message.chat.type = "group"
-    update.message.chat.username = ""
-    update.message.chat.first_name = ""
+    update.message.chat.username = None
+    update.message.chat.first_name = None
     update.message.chat_id = 1234
+    update.message.chat.title = "Test Group"
 
     add_group = "notipyserver.backends.telegram.userregistration.add_group"
 
@@ -102,5 +103,5 @@ def test_register_group():
 
         bot.sendMessage.assert_called_with(
             chat_id=1234,
-            text="Hi !\nYour registration was *successful* 🎉.",
+            text="Hi Test Group!\nYour registration was *successful* 🎉.",
             parse_mode=telegram.ParseMode.MARKDOWN)

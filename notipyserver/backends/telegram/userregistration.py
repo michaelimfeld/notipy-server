@@ -24,6 +24,7 @@ def register(bot, update):
     if update.message.chat.type == "group":
         recipient_name = update.message.chat.title
         register_function = add_group
+        name = update.message.chat.title
     else:
         if not update.message.chat.username:
             message = "Please setup a telegram username to use this bot."
@@ -31,6 +32,7 @@ def register(bot, update):
             return
         recipient_name = update.message.chat.username
         register_function = add_user
+        name = update.message.chat.first_name
 
     is_new = register_function(recipient_name, update.message.chat_id)
 
@@ -38,7 +40,7 @@ def register(bot, update):
         message = """
 Hi {}!
 Your registration was *successful* 🎉.
-        """.format(update.message.chat.first_name).strip()
+        """.format(name).strip()
     else:
         message = "Already registered!"
 
