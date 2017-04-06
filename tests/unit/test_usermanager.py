@@ -6,11 +6,11 @@ Provides test cases for the notipyserver usermanager module.
 :copyright: (c) by Michael Imfeld
 :license: MIT, see LICENSE for details
 """
+import os
 import tempfile
 from pathlib import Path
-from os.path import expanduser
 
-from mock import patch
+from mock import patch, MagicMock
 from nose.tools import assert_equal, assert_true, assert_false, assert_raises
 
 from notipyserver.backends.telegram.usermanager import load_yaml_file
@@ -47,18 +47,28 @@ def test_load_yaml_file():
     assert_equal(res, {"foouser": 1234, "baruser": 4321})
 
     tmp_file.close()
+    os.remove(str(tmp_file.name) + ".yml")
 
 
 def test_add_user_new_user():
     """
     Test add user if the user is not registered yet
     """
-    load_yml = "notipyserver.backends.telegram.usermanager.load_yaml_file"
-    with patch(load_yml) as mock:
-        mock.return_value = {"foouser": 1234}
+    tmp_file = tempfile.TemporaryFile()
 
-        Path(expanduser("~"), ".notipy").mkdir(exist_ok=True)
+    load_yml = "notipyserver.backends.telegram.usermanager.load_yaml_file"
+    users_file = "notipyserver.backends.telegram.usermanager.USERS_FILE_PATH"
+
+    with patch(load_yml) as mock, \
+            patch(users_file, Path(str(tmp_file.name))):
+        mock.return_value = {}
         assert_true(add_user("baruser", 4321))
+
+    with Path(str(tmp_file.name)).open() as _file:
+        assert_equal(_file.read(), "baruser: '4321'\n")
+
+    tmp_file.close()
+    os.remove(str(tmp_file.name))
 
 
 def test_add_user_existing_user():
@@ -68,9 +78,24 @@ def test_add_user_existing_user():
     load_yml = "notipyserver.backends.telegram.usermanager.load_yaml_file"
     with patch(load_yml) as mock:
         mock.return_value = {"foouser": 1234}
-
-        Path(expanduser("~"), ".notipy").mkdir(exist_ok=True)
         assert_false(add_user("foouser", 4321))
+
+
+def test_add_user_dir_nonexistent():
+    """
+    Test add user if the data dir does not exist
+    """
+    load_yml = "notipyserver.backends.telegram.usermanager.load_yaml_file"
+    users_file = "notipyserver.backends.telegram.usermanager.USERS_FILE_PATH"
+
+    with patch(load_yml) as mock, \
+            patch(users_file) as users_file_mock:
+        users_file_mock.parent.exists.return_value = False
+        mock.return_value = {}
+
+        add_user("foouser", 4321)
+
+        users_file_mock.parent.mkdir.assert_called_with(parents=True)
 
 
 def test_add_group_new_group():
@@ -80,8 +105,6 @@ def test_add_group_new_group():
     load_yml = "notipyserver.backends.telegram.usermanager.load_yaml_file"
     with patch(load_yml) as mock:
         mock.return_value = {"foogroup": 1234}
-
-        Path(expanduser("~"), ".notipy").mkdir(exist_ok=True)
         assert_true(add_group("bargroup", 4321))
 
 
@@ -92,9 +115,24 @@ def test_add_group_existing_group():
     load_yml = "notipyserver.backends.telegram.usermanager.load_yaml_file"
     with patch(load_yml) as mock:
         mock.return_value = {"foogroup": 1234}
-
-        Path(expanduser("~"), ".notipy").mkdir(exist_ok=True)
         assert_false(add_group("foogroup", 4321))
+
+
+def test_add_group_dir_nonexistent():
+    """
+    Test add group if the data dir does not exist
+    """
+    load_yml = "notipyserver.backends.telegram.usermanager.load_yaml_file"
+    groups_file = "notipyserver.backends.telegram.usermanager.GROUPS_FILE_PATH"
+
+    with patch(load_yml) as mock, \
+            patch(groups_file) as groups_file_mock:
+        groups_file_mock.parent.exists.return_value = False
+        mock.return_value = {}
+
+        add_group("foogroup", 1234)
+
+        groups_file_mock.parent.mkdir.assert_called_with(parents=True)
 
 
 def test_get_user_chat_id():

@@ -54,7 +54,8 @@ def add_user(username, chat_id):
     """
     logger = logging.getLogger()
     # Create directory if it does not already exist
-    USERS_FILE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not USERS_FILE_PATH.parent.exists():
+        USERS_FILE_PATH.parent.mkdir(parents=True)
     # Create file if it does not already exist
     USERS_FILE_PATH.touch()
 
@@ -86,7 +87,8 @@ def add_group(group_name, chat_id):
     """
     logger = logging.getLogger()
     # Create directory if it does not already exist
-    GROUPS_FILE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    if not GROUPS_FILE_PATH.parent.exists():
+        GROUPS_FILE_PATH.parent.mkdir(parents=True)
     # Create file if it does not already exist
     GROUPS_FILE_PATH.touch()
 
