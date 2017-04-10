@@ -72,4 +72,5 @@ def send_to_group(recipient, message, **_):
     bot = get_telegram_bot()
 
     chat_id = get_group_chat_id(recipient)
-    bot.sendMessage(chat_id=chat_id, text=message)
+    bot.sendMessage(chat_id=chat_id, text=message,
+                    parse_mode=ParseMode.MARKDOWN)
